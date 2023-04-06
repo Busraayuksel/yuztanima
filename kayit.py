@@ -33,8 +33,8 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.Kaydet.setEnabled(False)
 
-    def enable_save_button(self,):
-        if self.ogrNoEdit.text() == '' or self.yuz is None:
+    def enable_save_button(self):
+        if self.ogrNoEdit.text() == '' and self.yuz is None:
             self.Kaydet.setEnabled(False)
         else:
             self.Kaydet.setEnabled(True)
@@ -96,7 +96,12 @@ class Window(QMainWindow, Ui_MainWindow):
         studentNO = self.ogrNoEdit.text()
         dosya_adi = "{}.png".format(studentNO)
         file_path = os.path.join(path, dosya_adi)
-        cv2.imwrite(file_path, face)
+        if os.path.exists(file_path):
+            self.box("ÖĞRENCİ NO'YU KONTROL ET. BU NUMARA KAYITLI!!!")
+            self.Kaydet.setEnabled(False)
+        else:
+            cv2.imwrite(file_path, face)
+        #cv2.imwrite(file_path, face)
         
     def takephotos(self):
         ret, frame = self.capture.read()
