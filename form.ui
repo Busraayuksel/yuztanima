@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1387</width>
+    <width>1415</width>
     <height>891</height>
    </rect>
   </property>
@@ -46,7 +46,7 @@
       <x>400</x>
       <y>590</y>
       <width>101</width>
-      <height>141</height>
+      <height>191</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -64,6 +64,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QLabel" name="Cinsiyet">
+       <property name="text">
+        <string>Cinsiyet :</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="layoutWidget_2">
@@ -72,7 +79,7 @@
       <x>530</x>
       <y>590</y>
       <width>171</width>
-      <height>141</height>
+      <height>201</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -81,6 +88,9 @@
      </item>
      <item>
       <widget class="QComboBox" name="sinifComboBox"/>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cinsiyetComboBox"/>
      </item>
     </layout>
    </widget>
@@ -204,7 +214,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1387</width>
+     <width>1415</width>
      <height>26</height>
     </rect>
    </property>

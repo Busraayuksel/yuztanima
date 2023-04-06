@@ -30,6 +30,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.timer.timeout.connect(self.update_frame)
 
         self.sinifComboBox.addItems(['1','2','3','4'])
+        self.cinsiyetComboBox.addItems(['KIZ','ERKEK'])
 
         self.Kaydet.setEnabled(False)
 
@@ -39,6 +40,7 @@ class Window(QMainWindow, Ui_MainWindow):
         else:
             self.Kaydet.setEnabled(True)
             self.Kaydet.clicked.connect(self.save)
+            self.Kaydet.clicked.connect(lambda:QApplication.quit())
         
     def save(self):
         no = self.ogrNoEdit.text()
@@ -46,15 +48,16 @@ class Window(QMainWindow, Ui_MainWindow):
         soyad = self.soyadEdit.text().upper()
         dgmtrh = self.dgmtrhEdit.text()
         sinif = self.sinifComboBox.currentText()
+        cinsiyet = self.cinsiyetComboBox.currentText()
 
-        database = db.DataBase(no, ad, soyad, dgmtrh, sinif)
+        database = db.DataBase(no, ad, soyad, dgmtrh, sinif, cinsiyet)
         
         database.add_Student()
 
     def box(self,x):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)
-        msg.setText("Bir hata oluştu.")
+        msg.setText("BİLDİRİM")
         msg.setWindowTitle("!!!!!!")
         msg.setInformativeText(x)
         msg.exec_()
@@ -99,9 +102,9 @@ class Window(QMainWindow, Ui_MainWindow):
         if os.path.exists(file_path):
             self.box("ÖĞRENCİ NO'YU KONTROL ET. BU NUMARA KAYITLI!!!")
             self.Kaydet.setEnabled(False)
+            return False
         else:
             cv2.imwrite(file_path, face)
-        #cv2.imwrite(file_path, face)
         
     def takephotos(self):
         ret, frame = self.capture.read()
@@ -133,6 +136,10 @@ class Window(QMainWindow, Ui_MainWindow):
         self.takephoto.clicked.disconnect()
         self.takephoto.clicked.connect(self.takephotos)
         self.yuz.setPixmap(QPixmap()) # resmi ekrandan sil 
+        studentNO = self.ogrNoEdit.text()
+        file_path = "StudentFace/{}.png".format(studentNO)
+        if os.path.exists(file_path):
+            os.remove(file_path)
         self.takephoto.setText("Resim Çek")
 
 def app():
