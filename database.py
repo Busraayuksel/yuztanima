@@ -22,7 +22,7 @@ class DataBase:
                 self.cursor.execute("SELECT COUNT(*) FROM Student WHERE StudentNo=?", (studentNo,))
                 row = self.cursor.fetchone() #mevcut konumda bir kayıt varsa, bu kaydı bir tuple olarak döndürür ve cursor konumunu bir sonraki kayda taşır. 
                 if row[0] > 0:
-                    print("kayıtlı kullanıcı")
+                    print("-------")
                 else:
                     self.cursor.execute("INSERT INTO Student (StudentNo, Name, Surname, BornTime, Class, Gender) VALUES (?, ?, ?, ?, ?, ?)", 
                     (studentNo, name, lastName, bornDate, clas, gender))
