@@ -1,13 +1,13 @@
 import pypyodbc
 
 class DataBase:
-        def __init__(self,studentNo, name, lastName, bornDate, clas, gender):
-            self.studentNo = studentNo
-            self.name = name
-            self.lastName = lastName
-            self.bornDate = bornDate
-            self.clas = clas
-            self.gender = gender
+        def __init__(self):
+            # self.studentNo = studentNo
+            # self.name = name
+            # self.lastName = lastName
+            # self.bornDate = bornDate
+            # self.clas = clas
+            # self.gender = gender
 
             self.conn = pypyodbc.connect(
             'Driver={SQL Server};'
@@ -15,16 +15,17 @@ class DataBase:
             'Database=ogrenciKayit;'
             'Trusted_Connection=True;')
 
-        def add_Student(self):
-            cursor = self.conn.cursor()
+            self.cursor = self.conn.cursor()
+
+        def add_Student(self, studentNo, name, lastName, bornDate, clas, gender):
             try:
-                cursor.execute("SELECT COUNT(*) FROM Student WHERE StudentNo=?", (self.studentNo,))
-                row = cursor.fetchone() #mevcut konumda bir kayıt varsa, bu kaydı bir tuple olarak döndürür ve cursor konumunu bir sonraki kayda taşır. 
+                self.cursor.execute("SELECT COUNT(*) FROM Student WHERE StudentNo=?", (studentNo,))
+                row = self.cursor.fetchone() #mevcut konumda bir kayıt varsa, bu kaydı bir tuple olarak döndürür ve cursor konumunu bir sonraki kayda taşır. 
                 if row[0] > 0:
-                    print("-----------------------------------------------------------")
+                    print("kayıtlı kullanıcı")
                 else:
-                    cursor.execute("INSERT INTO Student (StudentNo, Name, Surname, BornTime, Class, Gender) VALUES (?, ?, ?, ?, ?, ?)", 
-                    (self.studentNo, self.name, self.lastName, self.bornDate, self.clas, self.gender))
+                    self.cursor.execute("INSERT INTO Student (StudentNo, Name, Surname, BornTime, Class, Gender) VALUES (?, ?, ?, ?, ?, ?)", 
+                    (studentNo, name, lastName, bornDate, clas, gender))
                     self.conn.commit()
                     print("Öğrenci başarıyla eklendi!")
                     self.showStudent()
@@ -34,8 +35,14 @@ class DataBase:
                 self.conn.close()
         
         def showStudent(self):
-            cursor = self.conn.cursor()
-            cursor.execute('SELECT * FROM Student')
-            students = cursor.fetchall()
+            self.cursor.execute('SELECT * FROM Student')
+            students = self.cursor.fetchall()
             for student in students:
                 print(student)
+
+        def control(self, no):
+            self.cursor.execute("SELECT COUNT(*) FROM Student WHERE StudentNo=?", (no,))
+            var = self.cursor.fetchone()
+            if var[0] > 0 :
+                print("var bu kişi")
+                return True
