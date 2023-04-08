@@ -2,12 +2,6 @@ import pypyodbc
 
 class DataBase:
         def __init__(self):
-            # self.studentNo = studentNo
-            # self.name = name
-            # self.lastName = lastName
-            # self.bornDate = bornDate
-            # self.clas = clas
-            # self.gender = gender
 
             self.conn = pypyodbc.connect(
             'Driver={SQL Server};'
@@ -28,10 +22,11 @@ class DataBase:
                     (studentNo, name, lastName, bornDate, clas, gender))
                     self.conn.commit()
                     print("Öğrenci başarıyla eklendi!")
-                    self.showStudent()
+
             except pypyodbc.Error as e:
                 print("hata : ", e)
             finally:
+                self.showStudent()
                 self.conn.close()
         
         def showStudent(self):
@@ -44,5 +39,4 @@ class DataBase:
             self.cursor.execute("SELECT COUNT(*) FROM Student WHERE StudentNo=?", (no,))
             var = self.cursor.fetchone()
             if var[0] > 0 :
-                print("var bu kişi")
                 return True
